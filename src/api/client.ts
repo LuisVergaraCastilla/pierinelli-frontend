@@ -4,6 +4,8 @@ import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { emitSessionExpired } from '../utils/authEvents';
 
+const envApiHost = process.env.EXPO_PUBLIC_API_HOST;
+
 const getHostFromDebuggerHost = (debuggerHost?: string): string | null => {
   if (!debuggerHost) return null;
   const [host] = debuggerHost.split(':');
@@ -18,6 +20,7 @@ const getApiHost = (): string => {
     (Constants.expoConfig as any)?.debuggerHost;
 
   const expoApiHost =
+    envApiHost ||
     (Constants.expoConfig as any)?.extra?.apiHost ||
     (Constants.manifest as any)?.extra?.apiHost;
   if (expoApiHost) {
